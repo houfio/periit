@@ -1,0 +1,61 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% trans %}Company{% endtrans %} - {{ company.name }}
+{% endblock %}
+
+{% block header %}
+    <a href="{{ path('app_companies') }}" class="back"><i class="fas fa-angle-left"></i></a>
+    {% trans %}Company{% endtrans %}
+{% endblock %}
+
+{% block content %}
+    <div class="content-padding">
+        <div class="card">
+            <span class="heading">{% trans %}Company{% endtrans %}</span>
+            <span>{{ company.name }}</span>
+            <span>{{ company.address }}</span>
+            <span>{{ company.zipCode }}, {{ company.city }}</span>
+            <a href="{{ company.website }}">{{ company.website }}</a>
+        </div>
+        <span class="heading">{% trans %}Contact persons{% endtrans %}</span>
+        <div class="scroller">
+            {% for contact in company.contactPersons %}
+                <div class="card backdrop">
+                    <span>{{ contact.firstName }} {{ contact.lastName }}</span>
+                    <span>{{ contact.function }}</span>
+                    <span>{{ contact.telephone }}</span>
+                    <span>{{ contact.email }}</span>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="card">
+            <span class="heading">{% trans %}Description{% endtrans %}</span>
+            <span>{{ company.description }}</span>
+        </div>
+        <span class="heading">{% trans %}Levels{% endtrans %}</span>
+        <div class="scroller">
+            {% for level in company.levels %}
+                <div class="card backdrop">
+                    <span>{{ level.name }}</span>
+                </div>
+            {% endfor %}
+        </div>
+        <span class="heading">{% trans %}Materials{% endtrans %}</span>
+        <div class="scroller">
+            {% for material in company.materials %}
+                <div class="card backdrop">
+                    <span>{{ material.name }}</span>
+                </div>
+            {% endfor %}
+        </div>
+        <span class="heading">{% trans %}Methods{% endtrans %}</span>
+        <div class="scroller">
+            {% for method in company.methods %}
+                <div class="card backdrop">
+                    <span>{{ method.name }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

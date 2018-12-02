@@ -1,0 +1,43 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% trans %}Excursions{% endtrans %}
+{% endblock %}
+
+{% block content %}
+    <div class="content-padding">
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{% trans %}ID{% endtrans %}</th>
+                        <th>{% trans %}Company{% endtrans %}</th>
+                        <th>{% trans %}School{% endtrans %}</th>
+                        <th>{% trans %}Visitor count{% endtrans %}</th>
+                        <th>{% trans %}Date{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for excursion in excursions %}
+                        <tr>
+                            <td data-label="{% trans %}ID{% endtrans %}">{{ excursion.id }}</td>
+                            <td data-label="{% trans %}Company{% endtrans %}">{{ excursion.company.name }}</td>
+                            <td data-label="{% trans %}School{% endtrans %}">{{ excursion.school.name }}</td>
+                            <td data-label="{% trans %}Visitor count{% endtrans %}">{{ excursion.visitorCount }}</td>
+                            <td data-label="{% trans %}Date{% endtrans %}">{{ excursion.date|date('d/m/Y') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <a href="{{ path('app_excursions', { 'page': page - 1 }) }}" class="arrow {{ page <= 1 ? 'disabled' }}">
+                <i class="fas fa-angle-left"></i>
+            </a>
+            <span class="page">{{ page }}/{{ total }}</span>
+            <a href="{{ path('app_excursions', { 'page': page + 1 }) }}" class="arrow {{ page >= total ? 'disabled' }}">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        </div>
+    </div>
+{% endblock %}

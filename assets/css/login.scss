@@ -1,0 +1,50 @@
+body {
+  overflow-y: hidden;
+}
+
+.background {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+  background: url(/build/login_background.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 20rem;
+  padding: 4rem 2rem 2rem;
+  background-color: white;
+  border-radius: 1rem;
+
+  & .avatar {
+    position: absolute;
+    top: -4rem;
+    left: calc(50% - 4rem);
+    width: 8rem;
+    height: 8rem;
+    background: url(/build/avatar.jpg);
+    background-size: cover;
+    border: 1rem solid white;
+    border-radius: 50%;
+  }
+
+  & .spacer {
+    margin-bottom: 1rem;
+  }
+}
+
+.error {
+  width: 100%;
+  max-width: 20rem;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  color: white;
+  background-color: orangered;
+}

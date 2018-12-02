@@ -1,0 +1,9 @@
+@function get-transitions($duration, $properties...) {
+  $transitions: ();
+
+  @each $property in $properties {
+    $transitions: append($transitions, $property $duration ease, comma);
+  }
+
+  @return $transitions;
+}

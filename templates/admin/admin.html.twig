@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block styles %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin') }}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin') }}
+{% endblock %}
+
+{% block body %}
+    <div class="sidebar">
+        <div class="header">
+            <a class="avatar" href="{{ path('app_dashboard') }}"></a>
+        </div>
+        <a class="item" href="{{ path('app_companies') }}">
+            <i class="fas fa-building fa-fw"></i>{% trans %}Companies{% endtrans %}
+        </a>
+        <a class="item" href="{{ path('app_users') }}">
+            <i class="fas fa-user fa-fw"></i>{% trans %}Users{% endtrans %}
+        </a>
+        <a class="item" href="{{ path('app_schools') }}">
+            <i class="fas fa-school fa-fw"></i>{% trans %}Schools{% endtrans %}
+        </a>
+        <a class="item" href="{{ path('app_excursions') }}">
+            <i class="fas fa-plane fa-fw"></i>{% trans %}Excursions{% endtrans %}
+        </a>
+        <div class="spacer"></div>
+        <a class="item" href="{{ path('app_logout') }}">
+            <i class="fas fa-sign-out-alt fa-fw"></i>{% trans %}Logout{% endtrans %}
+        </a>
+    </div>
+    <div class="content">
+        <div class="header">
+            {% block header %}
+                {{ block('title') }}
+            {% endblock %}
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}

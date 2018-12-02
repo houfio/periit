@@ -1,0 +1,47 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% trans %}Users{% endtrans %}
+{% endblock %}
+
+{% block content %}
+    <div class="content-padding">
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{% trans %}ID{% endtrans %}</th>
+                        <th>{% trans %}First name{% endtrans %}</th>
+                        <th>{% trans %}Last name{% endtrans %}</th>
+                        <th>{% trans %}Address{% endtrans %}</th>
+                        <th>{% trans %}Location{% endtrans %}</th>
+                        <th>{% trans %}Telephone{% endtrans %}</th>
+                        <th>{% trans %}Email{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td data-label="{% trans %}ID{% endtrans %}">{{ user.id }}</td>
+                            <td data-label="{% trans %}First name{% endtrans %}">{{ user.firstName }}</td>
+                            <td data-label="{% trans %}Last name{% endtrans %}">{{ user.lastName }}</td>
+                            <td data-label="{% trans %}Address{% endtrans %}">{{ user.address }}</td>
+                            <td data-label="{% trans %}Location{% endtrans %}">{{ user.zipCode }}, {{ user.city }}</td>
+                            <td data-label="{% trans %}Telephone{% endtrans %}">{{ user.telephone }}</td>
+                            <td data-label="{% trans %}Email{% endtrans %}">{{ user.email }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <a href="{{ path('app_users', { 'page': page - 1 }) }}" class="arrow {{ page <= 1 ? 'disabled' }}">
+                <i class="fas fa-angle-left"></i>
+            </a>
+            <span class="page">{{ page }}/{{ total }}</span>
+            <a href="{{ path('app_users', { 'page': page + 1 }) }}" class="arrow {{ page >= total ? 'disabled' }}">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        </div>
+    </div>
+{% endblock %}

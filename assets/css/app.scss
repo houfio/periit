@@ -1,0 +1,35 @@
+@import "~normalize.css";
+@import "functions";
+
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  overflow-y: scroll;
+}
+
+input {
+  padding: .5rem 1rem;
+  border: none;
+  background-color: whitesmoke;
+}
+
+button {
+  padding: .5rem 1rem;
+  border: none;
+  color: white;
+  background-color: black;
+
+  transition: get-transitions(.25s, background-color);
+
+  &:hover {
+    background-color: #252525;
+    cursor: pointer;
+  }
+}

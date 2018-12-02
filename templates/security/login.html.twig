@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% trans %}Login{% endtrans %}
+{% endblock %}
+
+{% block styles %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('login') }}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('login') }}
+{% endblock %}
+
+{% block body %}
+    <div class="background">
+        <form class="box" method="post">
+            <div class="avatar"></div>
+            <label for="email">{% trans %}Email{% endtrans %}</label>
+            <input type="email" value="{{ last_username }}" name="email" id="email" class="spacer" required/>
+            <label for="password">{% trans %}Password{% endtrans %}</label>
+            <input type="password" name="password" id="password" class="spacer" required/>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <label class="spacer">
+                <input type="checkbox" name="_remember_me"> {% trans %}Remember me{% endtrans %}
+            </label>
+            <button type="submit">
+                {% trans %}Login{% endtrans %}
+            </button>
+        </form>
+        {% if error %}
+            <div class="error">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

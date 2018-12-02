@@ -1,0 +1,286 @@
+@import "functions";
+@import "variables";
+@import "mixins";
+
+body {
+  min-height: 100vh;
+  background-color: whitesmoke;
+}
+
+.sidebar {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: 4rem;
+  height: 100%;
+  color: white;
+  background-color: #252525;
+  overflow: hidden;
+
+  transition: get-transitions(.5s, width);
+
+  & .header {
+    position: relative;
+    height: 2rem;
+    margin-bottom: 3rem;
+    background-color: #353535;
+
+    transition: get-transitions(.5s, height, border-radius, margin-bottom);
+
+    & .avatar {
+      position: absolute;
+      width: 4rem;
+      height: 4rem;
+      bottom: -2rem;
+      left: calc(50% - 2rem);
+      background-color: #353535;
+      background-image: url(/build/avatar.jpg);
+      background-size: cover;
+      border: 1rem solid #353535;
+      border-radius: 50%;
+
+      transition: get-transitions(.25s, filter), get-transitions(.5s, width, height, bottom, left);
+
+      &:hover {
+        filter: brightness(.9);
+        cursor: pointer;
+      }
+
+      @include at-breakpoint(tablet_landscape) {
+        width: 8rem;
+        height: 8rem;
+        bottom: -4rem;
+        left: calc(50% - 4rem);
+      }
+    }
+
+    @include at-breakpoint(tablet_landscape) {
+      height: 10rem;
+      border-radius: 0 0 1rem 1rem;
+      margin-bottom: 6rem;
+    }
+  }
+
+  & .item {
+    padding: 1rem;
+    white-space: nowrap;
+    color: white;
+    text-decoration: none;
+
+    transition: get-transitions(.25s, background-color);
+
+    & .fas {
+      margin-left: .35rem;
+      margin-right: 1.35rem;
+
+      transition: get-transitions(.5s, margin-left, margin-right);
+
+      @include at-breakpoint(tablet_landscape) {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+
+    &:hover, &.active {
+      background-color: #353535;
+      cursor: pointer;
+    }
+  }
+
+  & .spacer {
+    flex: 1;
+  }
+
+  @include at-breakpoint(tablet_landscape) {
+    width: 16rem;
+  }
+}
+
+.content {
+  margin-left: 4rem;
+  height: 100%;
+
+  transition: get-transitions(.5s, margin-left);
+
+  & .header {
+    padding: 2rem;
+    font-size: 2rem;
+    background-color: white;
+    border-radius: 0 0 1rem 1rem;
+
+    & .back {
+      color: black;
+
+      transition: get-transitions(.25s, color);
+
+      &:hover {
+        cursor: pointer;
+        color: #464646;
+      }
+    }
+  }
+
+  &-padding {
+    padding: 2rem;
+
+    &.flex {
+      display: flex;
+      align-items: flex-start;
+    }
+  }
+
+  @include at-breakpoint(tablet_landscape) {
+    margin-left: 16rem;
+  }
+}
+
+.table {
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+
+  & table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  & th, & td {
+    text-align: left;
+    padding: .5rem;
+  }
+
+  & thead {
+    display: none;
+  }
+
+  & tr {
+    display: block;
+    padding: .5rem;
+
+    transition: get-transitions(.25s, background-color);
+
+    &:not(:last-child) {
+      border-bottom: 2px solid whitesmoke;
+    }
+
+    &[data-href]:hover {
+      background-color: whitesmoke;
+      cursor: pointer;
+    }
+  }
+
+  & td {
+    display: block;
+    text-align: right;
+
+    &::before {
+      content: attr(data-label);
+      float: left;
+      margin-right: 1rem;
+    }
+  }
+
+  @include at-breakpoint(desktop) {
+    & thead {
+      display: table-header-group;
+    }
+
+    & tr {
+      display: table-row;
+      padding: 0;
+      border-bottom: none !important;
+    }
+
+    & td {
+      display: table-cell;
+      text-align: left;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0 0;
+
+  & .page {
+    margin: 0 .5rem;
+  }
+
+  & .arrow {
+    color: black;
+
+    &.disabled {
+      pointer-events: none;
+      color: lightgrey;
+    }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+
+  &.backdrop {
+    padding: 1rem;
+    background-color: white;
+  }
+
+  & span {
+    max-width: 32rem;
+  }
+}
+
+.heading {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: .5rem;
+}
+
+.scroller {
+  display: flex;
+  justify-content: stretch;
+  overflow-x: auto;
+  margin-bottom: 2rem;
+
+  & > * {
+    margin: 0;
+
+    & > * {
+      white-space: nowrap;
+    }
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+}
+
+.filter {
+  display: none;
+  flex-direction: column;
+  padding: 2rem;
+  margin-left: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+
+  & .spacer {
+    margin: .5rem 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  @include at-breakpoint(desktop) {
+    display: flex;
+  }
+}

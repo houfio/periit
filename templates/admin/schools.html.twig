@@ -1,0 +1,43 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% trans %}Schools{% endtrans %}
+{% endblock %}
+
+{% block content %}
+    <div class="content-padding">
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{% trans %}ID{% endtrans %}</th>
+                        <th>{% trans %}Name{% endtrans %}</th>
+                        <th>{% trans %}Levels{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for school in schools %}
+                        <tr>
+                            <td data-label="{% trans %}ID{% endtrans %}">{{ school.id }}</td>
+                            <td data-label="{% trans %}Name{% endtrans %}">{{ school.name }}</td>
+                            <td data-label="{% trans %}Levels{% endtrans %}">
+                                {% for level in school.levels %}
+                                    {{ level.name }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <a href="{{ path('app_schools', { 'page': page - 1 }) }}" class="arrow {{ page <= 1 ? 'disabled' }}">
+                <i class="fas fa-angle-left"></i>
+            </a>
+            <span class="page">{{ page }}/{{ total }}</span>
+            <a href="{{ path('app_schools', { 'page': page + 1 }) }}" class="arrow {{ page >= total ? 'disabled' }}">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% trans %}Dashboard{% endtrans %}
+{% endblock %}
+
+{% block content %}
+    <div class="content-padding">
+        <div class="card">
+            <span class="heading">{% trans %}User{% endtrans %}</span>
+            <span>{{ user.firstName }} {{ user.lastName }}</span>
+            <span>{{ user.address }}</span>
+            <span>{{ user.zipCode }}, {{ user.city }}</span>
+            <span>{{ user.telephone }}</span>
+            <span>{{ user.email }}</span>
+        </div>
+    </div>
+{% endblock %}
