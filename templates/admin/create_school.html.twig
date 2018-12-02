@@ -1,0 +1,27 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% trans %}Create school{% endtrans %}
+{% endblock %}
+
+{% block header %}
+    <a href="{{ path('app_schools') }}" class="action"><i class="fas fa-chevron-left fa-fw"></i></a>
+    {% trans %}Create school{% endtrans %}
+{% endblock %}
+
+{% block content %}
+    <div class="content-padding">
+        <form class="card backdrop" method="post">
+            <label for="name" class="spacer">{% trans %}Name{% endtrans %}</label>
+            <input type="text" name="name" id="name" required/>
+            <span class="spacer">{% trans %}Levels{% endtrans %}</span>
+            {% for level in levels %}
+                <label>
+                    <input type="checkbox" name="level[]" value="{{ level.slug }}"/> {{ level.name }}
+                </label>
+            {% endfor %}
+            <span class="spacer"></span>
+            <button type="submit">{% trans %}Create{% endtrans %}</button>
+        </form>
+    </div>
+{% endblock %}

@@ -18,6 +18,7 @@ input {
   padding: .5rem 1rem;
   border: none;
   background-color: whitesmoke;
+  max-width: 32rem;
 }
 
 button {
@@ -25,6 +26,7 @@ button {
   border: none;
   color: white;
   background-color: black;
+  max-width: 16rem;
 
   transition: get-transitions(.25s, background-color);
 

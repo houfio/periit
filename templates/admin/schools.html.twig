@@ -4,6 +4,11 @@
     {% trans %}Schools{% endtrans %}
 {% endblock %}
 
+{% block header %}
+    <a href="{{ path('app_create_school') }}" class="action"><i class="fas fa-plus fa-fw"></i></a>
+    {% trans %}Schools{% endtrans %}
+{% endblock %}
+
 {% block content %}
     <div class="content-padding">
         <div class="table">

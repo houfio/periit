@@ -9,12 +9,20 @@ use App\Entity\Material;
 use App\Entity\Method;
 use App\Entity\School;
 use App\Entity\User;
+use App\Utils\Slugger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
+    private $slugger;
+
+    public function __construct(Slugger $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
     /**
      * @Route("/", name="app_dashboard")
      */
@@ -127,6 +135,38 @@ class AdminController extends AbstractController
             'page' => $page,
             'total' => $total,
             'schools' => $schools->getIterator()
+        ]);
+    }
+
+    /**
+     * @Route("/schools/create", name="app_create_school", methods={"GET", "POST"})
+     */
+    public function createSchool(Request $request)
+    {
+        $repo = $this->getDoctrine()->getRepository(Level::class);
+
+        if ($request->getMethod() === 'POST') {
+            $name = $request->request->get('name');
+            $levels = $request->request->get('level', []);
+            $school = (new School())
+                ->setName($name)
+                ->setSlug($this->slugger->slugify($name));
+
+            foreach ($levels as $level) {
+                $school->addLevel($repo->findOneBy(['slug' => $level]));
+            }
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($school);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_schools');
+        }
+
+        $levels = $repo->findAll();
+
+        return $this->render('admin/create_school.html.twig', [
+            'levels' => $levels
         ]);
     }
 
