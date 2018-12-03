@@ -9,12 +9,9 @@ use App\Entity\Material;
 use App\Entity\Method;
 use App\Entity\School;
 use App\Entity\User;
+use App\Form\SchoolType;
 use App\Utils\Slugger;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -148,16 +145,7 @@ class AdminController extends AbstractController
     public function createSchool(Request $request)
     {
         $school = new School();
-        $form = $this->createFormBuilder($school)
-            ->add('name', TextType::class)
-            ->add('levels', EntityType::class, [
-                'class' => Level::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => true
-            ])
-            ->add('save', SubmitType::class, ['label' => 'Create school'])
-            ->getForm();
+        $form = $this->createForm(SchoolType::class, $school);
         $form->handleRequest($request);
 
         if (!$form->isSubmitted() || !$form->isValid()) {
