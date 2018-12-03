@@ -1,0 +1,27 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% trans %}School{% endtrans %} - {{ school.name }}
+{% endblock %}
+
+{% block header %}
+    <a href="{{ path('app_schools') }}" class="action"><i class="fas fa-chevron-left fa-fw"></i></a>
+    {% trans %}School{% endtrans %}
+{% endblock %}
+
+{% block content %}
+    <div class="content-padding">
+        <div class="card">
+            <span class="heading">{% trans %}School{% endtrans %}</span>
+            <span>{{ school.name }}</span>
+        </div>
+        <span class="heading">{% trans %}Levels{% endtrans %}</span>
+        <div class="scroller">
+            {% for level in school.levels %}
+                <div class="card backdrop">
+                    <span>{{ level.name }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -22,7 +22,7 @@
                 </thead>
                 <tbody>
                     {% for school in schools %}
-                        <tr>
+                        <tr data-href="{{ path('app_school', { 'slug': school.slug }) }}">
                             <td data-label="{% trans %}ID{% endtrans %}">{{ school.id }}</td>
                             <td data-label="{% trans %}Name{% endtrans %}">{{ school.name }}</td>
                             <td data-label="{% trans %}Levels{% endtrans %}">

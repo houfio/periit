@@ -169,6 +169,23 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/schools/{slug}", name="app_school")
+     */
+    public function school($slug)
+    {
+        $repo = $this->getDoctrine()->getRepository(School::class);
+        $school = $repo->findOneBy(['slug' => $slug]);
+
+        if (!$school) {
+            return $this->redirectToRoute('app_schools');
+        }
+
+        return $this->render('admin/school.html.twig', [
+            'school' => $school
+        ]);
+    }
+
+    /**
      * @Route("/excursions/{page<\d+>?1}", name="app_excursions")
      */
     public function excursions($page)
