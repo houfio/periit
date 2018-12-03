@@ -14,6 +14,10 @@ body {
   overflow-y: scroll;
 }
 
+label {
+  margin-bottom: .5rem;
+}
+
 input {
   padding: .5rem 1rem;
   border: none;
@@ -33,5 +37,25 @@ button {
   &:hover {
     background-color: #252525;
     cursor: pointer;
+  }
+}
+
+form {
+  margin-top: -10px;
+
+  & .form-row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & .form-errors {
+    max-width: 32rem;
+    margin-bottom: .5rem;
+  }
+
+  & .form-error {
+    padding: .5rem 1rem;
+    color: white;
+    background-color: orangered;
   }
 }
