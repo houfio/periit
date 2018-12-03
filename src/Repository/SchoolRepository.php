@@ -31,4 +31,15 @@ class SchoolRepository extends ServiceEntityRepository
 
         return $paginator;
     }
+
+    public function findSlugs($slug)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->select('s.slug')
+            ->where('s.slug LIKE :slug')
+            ->setParameter('slug', "$slug%")
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
 }

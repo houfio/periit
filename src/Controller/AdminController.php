@@ -10,7 +10,11 @@ use App\Entity\Method;
 use App\Entity\School;
 use App\Entity\User;
 use App\Utils\Slugger;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -143,31 +147,37 @@ class AdminController extends AbstractController
      */
     public function createSchool(Request $request)
     {
-        $repo = $this->getDoctrine()->getRepository(Level::class);
+        $school = new School();
+        $form = $this->createFormBuilder($school)
+            ->add('name', TextType::class)
+            ->add('levels', EntityType::class, [
+                'class' => Level::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
+            ])
+            ->add('save', SubmitType::class, ['label' => 'Create school'])
+            ->getForm();
+        $form->handleRequest($request);
 
-        if ($request->getMethod() === 'POST') {
-            $name = $request->request->get('name');
-            $levels = $request->request->get('level', []);
-            $school = (new School())
-                ->setName($name)
-                ->setSlug($this->slugger->slugify($name));
-
-            foreach ($levels as $level) {
-                $school->addLevel($repo->findOneBy(['slug' => $level]));
-            }
-
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($school);
-            $manager->flush();
-
-            return $this->redirectToRoute('app_schools');
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            return $this->render('admin/create_school.html.twig', [
+                'form' => $form->createView()
+            ]);
         }
 
-        $levels = $repo->findAll();
+        $school = $form->getData();
+        $repo = $this->getDoctrine()->getRepository(School::class);
+        $slug = $this->slugger->slugify($school->getName(), function ($slug) use ($repo) {
+            return $repo->findSlugs($slug);
+        });
+        $school->setSlug($slug);
 
-        return $this->render('admin/create_school.html.twig', [
-            'levels' => $levels
-        ]);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($school);
+        $manager->flush();
+
+        return $this->redirectToRoute('app_schools');
     }
 
     /**

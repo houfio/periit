@@ -11,17 +11,10 @@
 
 {% block content %}
     <div class="content-padding">
-        <form class="card backdrop" method="post">
-            <label for="name" class="spacer">{% trans %}Name{% endtrans %}</label>
-            <input type="text" name="name" id="name" required/>
-            <span class="spacer">{% trans %}Levels{% endtrans %}</span>
-            {% for level in levels %}
-                <label>
-                    <input type="checkbox" name="level[]" value="{{ level.slug }}"/> {{ level.name }}
-                </label>
-            {% endfor %}
-            <span class="spacer"></span>
-            <button type="submit">{% trans %}Create{% endtrans %}</button>
-        </form>
+        <div class="card backdrop">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
