@@ -14,11 +14,13 @@
 {% endblock button_row %}
 
 {% block form_errors %}
-    <div class="form-errors">
-        {% for error in errors %}
-            <div class="form-error">{{ error.message }}</div>
-        {% endfor %}
-    </div>
+    {% if errors|length > 0 %}
+        <div class="form-errors">
+            {% for error in errors %}
+                <div class="form-error">{{ error.message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock form_errors %}
 
 {% block choice_widget_expanded %}

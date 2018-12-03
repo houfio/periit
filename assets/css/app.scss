@@ -41,16 +41,21 @@ button {
 }
 
 form {
-  margin-top: -10px;
-
   & .form-row {
     display: flex;
     flex-direction: column;
+
+    &:not(:last-of-type) {
+      margin-bottom: .5rem;
+    }
   }
 
   & .form-errors {
     max-width: 32rem;
-    margin-bottom: .5rem;
+
+    &:first-child {
+      margin-bottom: .5rem;
+    }
   }
 
   & .form-error {
