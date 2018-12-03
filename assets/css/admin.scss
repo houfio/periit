@@ -186,6 +186,11 @@ body {
     }
   }
 
+  &-order {
+    color: black;
+    text-decoration: none;
+  }
+
   @include at-breakpoint(desktop) {
     & thead {
       display: table-header-group;

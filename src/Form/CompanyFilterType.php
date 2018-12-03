@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Company;
 use App\Entity\Level;
 use App\Entity\Material;
 use App\Entity\Method;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +18,6 @@ class CompanyFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Company::class,
             'csrf_protection' => false
         ]);
     }
@@ -27,7 +26,9 @@ class CompanyFilterType extends AbstractType
     {
         $builder
             ->setMethod('GET')
-            ->add('search', TextType::class, ['mapped' => false, 'required' => false])
+            ->add('search', TextType::class, ['required' => false])
+            ->add('order_by', HiddenType::class)
+            ->add('order_as', HiddenType::class)
             ->add('levels', EntityType::class, [
                 'class' => Level::class,
                 'choice_label' => 'name',

@@ -12,6 +12,7 @@ use App\Entity\User;
 use App\Form\CompanyFilterType;
 use App\Form\SchoolType;
 use App\Utils\Slugger;
+use App\Utils\StringUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +20,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     private $slugger;
+    private $stringUtils;
 
-    public function __construct(Slugger $slugger)
+    public function __construct(Slugger $slugger, StringUtils $stringUtils)
     {
         $this->slugger = $slugger;
+        $this->stringUtils = $stringUtils;
     }
 
     /**
@@ -42,13 +45,34 @@ class AdminController extends AbstractController
      */
     public function companies($page, Request $request)
     {
-        $company = new Company();
-        $form = $this->createForm(CompanyFilterType::class, $company);
+        $form = $this->createForm(CompanyFilterType::class, [
+            'search' => '',
+            'order_by' => 'id',
+            'order_as' => 'asc',
+            'levels' => [],
+            'materials' => [],
+            'methods' => []
+        ]);
         $form->handleRequest($request);
+        $filters = $form->getData();
+        $orderByOptions = ['id', 'name'];
+        $orderBy = $this->stringUtils->oneOf($filters['order_by'], $orderByOptions);
+        $orderAsOptions = ['asc', 'desc'];
+        $orderAs = $this->stringUtils->oneOf($filters['order_as'], $orderAsOptions);
+
+        $orderUrls = [];
+
+        foreach ($orderByOptions as $order) {
+            $orderUrls[$order] = $this->generateUrl('app_companies', array_merge($request->query->all(), [
+                'page' => $page,
+                'order_by' => $order,
+                'order_as' => $this->stringUtils->nextOf($orderAs, $orderAsOptions)
+            ]));
+        }
 
         $size = 25;
         $repo = $this->getDoctrine()->getRepository(Company::class);
-        $companies = $repo->findAllPaginated($page, $size, $form->get('search')->getData(), $form->getData());
+        $companies = $repo->findAllPaginated($page, $size, $filters, $orderBy, $orderAs);
         $total = ceil($companies->count() / $size);
 
         if ($total && ($page < 1 || $page > $total)) {
@@ -59,7 +83,10 @@ class AdminController extends AbstractController
             'page' => $page,
             'total' => max($total, 1),
             'companies' => $companies->getIterator(),
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'orderBy' => $orderBy,
+            'orderAs' => $orderAs == 'asc' ? 'down' : 'up',
+            'orders' => $orderUrls
         ]);
     }
 

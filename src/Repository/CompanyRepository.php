@@ -20,28 +20,25 @@ class CompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, Company::class);
     }
 
-    public function findAllPaginated($page, $size, $search, Company $filters)
+    public function findAllPaginated($page, $size, $filters, $orderBy, $orderAs)
     {
         $query = $this->createQueryBuilder('c')
+            ->orderBy("c.$orderBy", $orderAs)
             ->where('c.name LIKE :search');
 
-        $filters = [
-            'levels' => $filters->getLevels(),
-            'materials' => $filters->getMaterials(),
-            'methods' => $filters->getMethods()
-        ];
+        $filterNames = ['levels', 'materials', 'methods',];
 
-        foreach ($filters as $name => $filter) {
-            if (count($filter)) {
+        foreach ($filterNames as $name) {
+            if (count($filters[$name])) {
                 $query = $query
                     ->innerJoin("c.$name", $name)
                     ->andWhere("$name IN (:$name)")
-                    ->setParameter($name, $filter);
+                    ->setParameter($name, $filters[$name]);
             }
         }
 
         $query = $query
-            ->setParameter('search', "%$search%")
+            ->setParameter('search', "%${filters['search']}%")
             ->getQuery();
         $paginator = new Paginator($query);
 

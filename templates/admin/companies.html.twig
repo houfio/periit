@@ -11,8 +11,22 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>{% trans %}ID{% endtrans %}</th>
-                            <th>{% trans %}Name{% endtrans %}</th>
+                            <th>
+                                <a href="{{ orders.id }}" class="table-order">
+                                    {% trans %}ID{% endtrans %}
+                                    {% if orderBy == 'id'  %}
+                                        <i class="fas fa-sort-{{ orderAs }}"></i>
+                                    {% endif %}
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ orders.name }}" class="table-order">
+                                    {% trans %}Name{% endtrans %}
+                                    {% if orderBy == 'name'  %}
+                                        <i class="fas fa-sort-{{ orderAs }}"></i>
+                                    {% endif %}
+                                </a>
+                            </th>
                             <th>{% trans %}Address{% endtrans %}</th>
                             <th>{% trans %}Location{% endtrans %}</th>
                         </tr>
