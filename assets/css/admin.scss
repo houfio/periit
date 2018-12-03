@@ -284,14 +284,6 @@ body {
   background-color: white;
   border-radius: 1rem;
 
-  & .spacer {
-    margin: .5rem 0;
-
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-
   @include at-breakpoint(desktop) {
     display: flex;
   }

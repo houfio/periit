@@ -30,6 +30,6 @@ class SchoolType extends AbstractType
                 'multiple' => true,
                 'expanded' => true
             ])
-            ->add('save', SubmitType::class, ['label' => 'Create school']);
+            ->add('create', SubmitType::class);
     }
 }

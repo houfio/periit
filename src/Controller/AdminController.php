@@ -9,6 +9,7 @@ use App\Entity\Material;
 use App\Entity\Method;
 use App\Entity\School;
 use App\Entity\User;
+use App\Form\CompanyFilterType;
 use App\Form\SchoolType;
 use App\Utils\Slugger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,42 +42,24 @@ class AdminController extends AbstractController
      */
     public function companies($page, Request $request)
     {
-        $searchFilter = $request->query->get('search', '');
-        $levelFilter = $request->query->get('level', []);
-        $materialFilter = $request->query->get('material', []);
-        $methodFilter = $request->query->get('method', []);
+        $company = new Company();
+        $form = $this->createForm(CompanyFilterType::class, $company);
+        $form->handleRequest($request);
 
         $size = 25;
         $repo = $this->getDoctrine()->getRepository(Company::class);
-        $companies = $repo->findAllPaginated($page, $size, $searchFilter, $levelFilter, $materialFilter, $methodFilter);
+        $companies = $repo->findAllPaginated($page, $size, $form->get('search')->getData(), $form->getData());
         $total = ceil($companies->count() / $size);
 
         if ($total && ($page < 1 || $page > $total)) {
             return $this->redirectToRoute('app_companies');
         }
 
-        $repo = $this->getDoctrine()->getRepository(Level::class);
-        $levels = $repo->findAll();
-
-        $repo = $this->getDoctrine()->getRepository(Material::class);
-        $materials = $repo->findAll();
-
-        $repo = $this->getDoctrine()->getRepository(Method::class);
-        $methods = $repo->findAll();
-
         return $this->render('admin/companies.html.twig', [
             'page' => $page,
             'total' => max($total, 1),
             'companies' => $companies->getIterator(),
-            'levels' => $levels,
-            'materials' => $materials,
-            'methods' => $methods,
-            'filters' => [
-                'search' => $searchFilter,
-                'level' => $levelFilter,
-                'material' => $materialFilter,
-                'method' => $methodFilter
-            ]
+            'form' => $form->createView()
         ]);
     }
 

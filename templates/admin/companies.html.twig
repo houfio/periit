@@ -42,29 +42,10 @@
                 </a>
             </div>
         </div>
-        <form class="filter">
-            <label for="search" class="spacer">{% trans %}Search{% endtrans %}</label>
-            <input type="text" name="search" id="search" value="{{ filters.search }}"/>
-            <span class="spacer">{% trans %}Levels{% endtrans %}</span>
-            {% for level in levels %}
-                <label>
-                    <input type="checkbox" name="level[]" value="{{ level.slug }}" {{ level.slug in filters.level ? 'checked' }}/> {{ level.name }}
-                </label>
-            {% endfor %}
-            <span class="spacer">{% trans %}Materials{% endtrans %}</span>
-            {% for material in materials %}
-                <label>
-                    <input type="checkbox" name="material[]" value="{{ material.slug }}" {{ material.slug in filters.material ? 'checked' }}/> {{ material.name }}
-                </label>
-            {% endfor %}
-            <span class="spacer">{% trans %}Methods{% endtrans %}</span>
-            {% for method in methods %}
-                <label>
-                    <input type="checkbox" name="method[]" value="{{ method.slug }}" {{ method.slug in filters.method ? 'checked' }}/> {{ method.name }}
-                </label>
-            {% endfor %}
-            <span class="spacer"></span>
-            <button type="submit">{% trans %}Filter{% endtrans %}</button>
-        </form>
+        <div class="filter">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}

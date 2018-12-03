@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class Slugger
 {
-    public static function slugify(string $text, ?callable $get_existing): string
+    public function slugify(string $text, ?callable $get_existing): string
     {
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);
         $text = preg_replace('~[^-\w]+~', '', $text);
@@ -19,7 +19,7 @@ class Slugger
         return $text;
     }
 
-    public static function checkSlug(string $slug, array $existing): string
+    public function checkSlug(string $slug, array $existing): string
     {
         if (!$existing) {
             return $slug;
