@@ -66,9 +66,7 @@ class AdminController extends AbstractController
             $orderUrls[$order] = $this->generateUrl('app_companies', array_merge($request->query->all(), [
                 'page' => $page,
                 'order_by' => $order,
-                'order_as' => $orderBy === $order
-                    ? $this->stringUtils->nextOf($orderAs, $orderAsOptions)
-                    : $orderAsOptions[0]
+                'order_as' => $this->stringUtils->nextOf($orderAs, $orderAsOptions)
             ]));
         }
 
